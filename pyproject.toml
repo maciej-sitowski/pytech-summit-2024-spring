@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "pytech-summit-2024-spring"
+version = "0.1.0"
+description = ""
+authors = ["Maciej Sitowski <maciej.sitowski@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.0.4"
+djangorestframework = "^3.15.1"
+django-debug-toolbar = "^4.3.0"
+django-debug-toolbar-request-history = "^0.1.4"
+django-requests-debug-toolbar = "^0.0.7"
+opentelemetry-api = "^1.24.0"
+opentelemetry-exporter-otlp = "^1.24.0"
+opentelemetry-instrumentation = "^0.45b0"
+opentelemetry-instrumentation-asgi = "^0.45b0"
+opentelemetry-instrumentation-requests = "^0.45b0"
+dynaconf = "^3.2.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
