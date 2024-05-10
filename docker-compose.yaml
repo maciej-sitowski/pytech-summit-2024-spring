@@ -1,0 +1,47 @@
+version: '3.8'
+name: pytech-summit-2024-spring
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./docker/django/Dockerfile
+    command: /start
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "8010:8000"
+
+  otel-collector: 
+    image: otel/opentelemetry-collector-contrib
+    volumes: 
+      - ./docker/otel/otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml
+    ports:
+      - 1888:1888 # pprof extension
+      - 8888:8888 # Prometheus metrics exposed by the Collector
+      - 8889:8889 # Prometheus exporter metrics
+      - 13133:13133 # health_check extension
+      - 4317:4317 # OTLP gRPC receiver
+      - 4318:4318 # OTLP http receiver
+      - 55679:55679 # zpages extension
+    environment:
+      - OTEL_EXPORTER_JAEGER_ENDPOINT=jaeger:4317
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    volumes:
+      - ./docker/otel/badger_data:/badger
+    ports:
+      - "17686:16686"  # required by Digma plugin
+    command: |
+      --query.additional-headers "Access-Control-Allow-Origin: *"
+    environment:
+      - SPAN_STORAGE_TYPE=badger
+      - BADGER_EPHEMERAL=false
+      - BADGER_DIRECTORY_VALUE=/badger/data
+      - BADGER_DIRECTORY_KEY=/badger/key
+
+  memcached:
+    image: memcached:latest
+    ports:
+      - "11211:12111"
