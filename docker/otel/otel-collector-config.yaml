@@ -1,0 +1,30 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+exporters:
+  otlp/digma:
+    endpoint: "digma-compound:5050"
+    tls:
+      insecure: true
+  otlp/jaeger:
+    endpoint: ${env:OTEL_EXPORTER_JAEGER_ENDPOINT}
+    tls:
+      insecure: true
+
+processors:
+  batch:
+
+extensions:
+    health_check: {}
+
+service:
+  extensions:
+    - health_check
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [otlp/jaeger]
+      processors: [batch]
