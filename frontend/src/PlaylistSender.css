@@ -1,0 +1,36 @@
+.playlist-form {
+    margin: 20px;
+}
+
+.playlist-input {
+    width: 80%;  /* Makes the input wider */
+    padding: 8px 10px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.submit-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.response {
+    margin-top: 20px;
+    padding: 10px;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.success {
+    background-color: #28a745;  /* Green background for success messages */
+}
+
+.error {
+    background-color: #dc3545;  /* Red background for error messages */
+}

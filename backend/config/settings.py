@@ -11,24 +11,31 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import socket
 from pathlib import Path
-from dynaconf import Dynaconf
+# from dynaconf import settings
 
-settings = Dynaconf(
-    settings_files = ['.secrets.yaml']
-)
+# settings = Dynaconf(
+#     settings_files = ['/usr/src/app/.secrets.yaml']
+#     # settings_files = ['settings.yaml']
+# )
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+print(BASE_DIR)
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-SECRET_KEY = settings.SECRET_KEY
+
+
+SECRET_KEY = "django-insecure-#^_!"
 DEBUG = True
 
 ALLOWED_HOSTS = []
 hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
 INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + ["127.0.0.1", "10.0.2.2"]
+
 
 
 # Application definition
@@ -39,19 +46,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    
-    # 3rd parties
-    "rest_framework",
-    "debug_toolbar",
-    "silk",
-
-    # Custom apps
-    "courses",
 ]
 
 MIDDLEWARE = [
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
-    # 'silk.middleware.SilkyMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -59,6 +56,10 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
 ]
 
 ROOT_URLCONF = "config.urls"

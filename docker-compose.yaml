@@ -5,17 +5,17 @@ services:
   api:
     build:
       context: .
-      dockerfile: ./docker/django/Dockerfile
+      dockerfile: ./backend/docker/django/Dockerfile
     command: /start
     volumes:
-      - .:/usr/src/app
+      - ./backend/:/usr/src/app
     ports:
       - "8010:8000"
 
   otel-collector: 
     image: otel/opentelemetry-collector-contrib
     volumes: 
-      - ./docker/otel/otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml
+      - ./backend/docker/otel/otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml
     ports:
       - 1888:1888 # pprof extension
       - 8888:8888 # Prometheus metrics exposed by the Collector
@@ -30,7 +30,7 @@ services:
   jaeger:
     image: jaegertracing/all-in-one:latest
     volumes:
-      - ./docker/otel/badger_data:/badger
+      - ./backend/docker/otel/badger_data:/badger
     ports:
       - "17686:16686"  # required by Digma plugin
     command: |
@@ -45,3 +45,12 @@ services:
     image: memcached:latest
     ports:
       - "11211:12111"
+
+  web:
+    build:
+      context: .
+      dockerfile: ./frontend/docker/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
