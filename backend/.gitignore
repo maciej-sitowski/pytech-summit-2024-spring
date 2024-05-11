@@ -161,3 +161,4 @@ cython_debug/
 
 
 .secrets.yaml
+backend/docker/otel/badger_data/
